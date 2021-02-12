@@ -58,6 +58,46 @@ void inorder(struct node *root){
     printf("%d ",root->data);
     inorder(root->rightLink);
 }
+int findMin(struct node *root){
+    while(root->leftLink!=NULL){
+        root=root->leftLink;
+    }
+    return root->data;
+}
+struct node* deleteElement(struct node *root,int data){
+    if(root==NULL)
+        return root;
+    else if(data<root->data)
+        root->leftLink=deleteElement(root->leftLink,data);
+    else if(data>root->data)
+        root->rightLink=deleteElement(root->rightLink,data);
+    else{
+        if(root->leftLink==NULL&&root->rightLink==NULL){
+            free(root);
+            root=NULL;
+            return root;
+        }
+        else if(root->leftLink==NULL){
+            struct note *temp=root;
+            root=root->rightLink;
+            free(temp);
+            return root;
+        }
+        else if(root->rightLink==NULL){
+            struct note *temp=root;
+            root=root->leftLink;
+            free(temp);
+            return root;
+        }
+        else {
+            struct node *temp;
+            temp->data=findMin(root->rightLink);
+            root->data=temp->data;
+            root->rightLink=deleteElement(root->rightLink,temp->data);
+        }
+    }
+    return root;
+}
 void main(){
     struct node *root=NULL;
     int dis,data;
@@ -70,7 +110,10 @@ void main(){
                     scanf("%d",&data);
                     insertBST(&root,data);
                     break;
-            case 2:break;
+            case 2:printf("Enter Value : ");
+                    scanf("%d",&data);
+                    root=deleteElement(root,data);
+                    break;
             case 3:printf("PREORDER    : ");
                     preorder(root);
                     break;
