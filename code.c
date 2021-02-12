@@ -30,6 +30,10 @@ void insertBST(struct node **root,int data){
                 }
                 ptr=ptr->rightLink;
             }
+            else {
+                printf("ELEMENT IS ALREADY EXIST !! \n");
+                break;
+            }
         }
     }
 }
@@ -80,4 +84,5 @@ void main(){
             
         }
     }while(dis!=6);
+    printf("\nThanks for use this program\n");
 }
